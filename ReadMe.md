@@ -157,5 +157,3 @@ elasticsearch
 Apache 2 Licensed. See [LICENSE](https://github.com/terraform-aws-modules/terraform-aws-sns/tree/master/LICENSE) for full details.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-#   i s e  
- 
