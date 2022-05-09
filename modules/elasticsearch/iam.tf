@@ -7,6 +7,13 @@ resource "aws_cloudwatch_log_group" "es_cloudwatch_log_group" {
   name              = each.value["cloudwatch_log_group_name"]
   retention_in_days = lookup(each.value, "log_publishing_options_retention", var.log_publishing_options_retention)
   tags              = merge(lookup(each.value, "tags", null), var.tags)
+   kms_key_id = aws_kms_key.example.arn
+}
+
+resource "aws_kms_key" "example" {
+  description             = "example"
+  deletion_window_in_days = 10
+}
 }
 
 resource "aws_cloudwatch_log_resource_policy" "es_aws_cloudwatch_log_resource_policy" {

@@ -1,5 +1,8 @@
 resource "aws_elasticsearch_domain" "es_domain" {
-
+  log_publishing_options {
+    enabled = true
+  }
+}
   count = var.enabled ? 1 : 0
 
   # Domain name
@@ -17,6 +20,11 @@ resource "aws_elasticsearch_domain" "es_domain" {
   # advanced_security_options
   dynamic "advanced_security_options" {
     for_each = local.advanced_security_options
+    
+  metadata_options {
+    http_tokens = "required"
+  }
+}
     content {
       enabled                        = lookup(advanced_security_options.value, "enabled")
       internal_user_database_enabled = lookup(advanced_security_options.value, "internal_user_database_enabled")
@@ -147,6 +155,11 @@ resource "aws_elasticsearch_domain" "es_domain" {
 
   # Service-linked role to give Amazon ES permissions to access your VPC
   depends_on = [aws_iam_service_linked_role.es, aws_cloudwatch_log_group.es_cloudwatch_log_group]
+
+  node_to_node_encryption {
+    enabled = true
+  }
+}
 
 }
 
