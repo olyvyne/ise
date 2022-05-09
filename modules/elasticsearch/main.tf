@@ -5,46 +5,45 @@ resource "aws_elasticsearch_domain" "es_domain" {
   node_to_node_encryption {
     enabled = true
   }
-  } domain_endpoint_options {
-  enforce_https = true
-}
-
-encrypt_at_rest {
-  enabled = true
-}
-
-count = var.enabled ? 1 : 0
-
-# Domain name
-domain_name = var.domain_name
-
-# ElasticSeach version
-elasticsearch_version = var.elasticsearch_version
-
-# access_policies
-access_policies = var.access_policies
-
-# advanced_options
-advanced_options = var.advanced_options == null ? {} : var.advanced_options
-
-# advanced_security_options
-dynamic "advanced_security_options" {
-  for_each = local.advanced_security_options
-
-  metadata_options {
-    http_tokens = "required"
+  domain_endpoint_options {
+    enforce_https = true
   }
-}
-content {
-  enabled                        = lookup(advanced_security_options.value, "enabled")
-  internal_user_database_enabled = lookup(advanced_security_options.value, "internal_user_database_enabled")
-
-  master_user_options {
-    master_user_arn      = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_arn", null)
-    master_user_name     = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_name", null)
-    master_user_password = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_password", null)
+  encrypt_at_rest {
+    enabled = true
   }
-}
+
+  count = var.enabled ? 1 : 0
+
+  # Domain name
+  domain_name = var.domain_name
+
+  # ElasticSeach version
+  elasticsearch_version = var.elasticsearch_version
+
+  # access_policies
+  access_policies = var.access_policies
+
+  # advanced_options
+  advanced_options = var.advanced_options == null ? {} : var.advanced_options
+
+  # advanced_security_options
+  dynamic "advanced_security_options" {
+    for_each = local.advanced_security_options
+
+    metadata_options {
+      http_tokens = "required"
+    }
+  }
+  content {
+    enabled                        = lookup(advanced_security_options.value, "enabled")
+    internal_user_database_enabled = lookup(advanced_security_options.value, "internal_user_database_enabled")
+
+    master_user_options {
+      master_user_arn      = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_arn", null)
+      master_user_name     = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_name", null)
+      master_user_password = lookup(lookup(advanced_security_options.value, "master_user_options"), "master_user_password", null)
+    }
+  }
 }
 
 # domain_endpoint_options
