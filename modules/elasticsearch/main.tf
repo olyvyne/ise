@@ -2,7 +2,12 @@ resource "aws_elasticsearch_domain" "es_domain" {
   log_publishing_options {
     enabled = true
   }
-}
+   }
+  domain_endpoint_options {
+    enforce_https = true
+  }
+
+
   count = var.enabled ? 1 : 0
 
   # Domain name

@@ -20,6 +20,9 @@ resource "aws_instance" "app_server" {
   ami           = "ami-0e472ba40eb589f49"
   instance_type = "t2.micro"
 
+  metadata_options {
+    http_tokens = "required"
+  }
 
 }
 module "sns" {
