@@ -2,7 +2,10 @@ resource "aws_elasticsearch_domain" "es_domain" {
   log_publishing_options {
     enabled = true
   }
-   }
+     node_to_node_encryption {
+    enabled = true
+  }
+}
   domain_endpoint_options {
     enforce_https = true
   }
