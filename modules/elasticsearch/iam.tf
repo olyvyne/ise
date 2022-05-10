@@ -14,7 +14,7 @@ resource "aws_kms_key" "example" {
   description             = "example"
   deletion_window_in_days = 10
 }
-}
+
 
 resource "aws_cloudwatch_log_resource_policy" "es_aws_cloudwatch_log_resource_policy" {
   count       = var.enabled && var.cloudwatch_log_enabled ? 1 : 0
